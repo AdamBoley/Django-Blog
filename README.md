@@ -60,5 +60,14 @@ Migrate the databases again
 This will create the tables on the Heroku postgres database
 Check the Heroku database to confirm this
 
+Set up a Cloudinary account and get API key, copy to env.py, removing "CLOUDINAY_URL=" from the beginning
+
+Add CLOUDINARY URL and PORT to Heroku config vars. Givce PORT a value of 8000
+
+Add DISABLE_COLLECTSTATIC to config vars
+this stops Heroku from acquiring the static files (JS and CSS files) because these don't exist yet
+
+
+
 
 
