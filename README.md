@@ -146,6 +146,106 @@ In the index.html file, there is some funky use of the templating language, whic
 In the Bootstrap cards which hold each post, more templating language checks to see if the post has an image. If so, the image is injected. If not, a default placeholder image is injected instead. This ensures that every post card always has an image
 
 
+## All Auth
+
+Install Django AllAuth:
+`pip3 install django-allauth`
+
+update requirements.txt:
+`pip3 freeze --local > requirements.txt`
+
+Add allauth to codestar/urls.py
+Add allauth to INSTALLED_APPS in settings.py
+
+Then migrate:
+`python3 manage.py migrate`
+
+Run server to confirm:
+`python3 manage.py runserver`
+
+Allauth provides templates for sign-up, log-in and log-out
+These may be accessed without said files in repository by appending /accounts/signup to the URL
+These are not pretty, but may be customised later
+In base.html, update anchor hrefs with URLs - {% url 'account_logout' %}, {% url 'account_login' %}, {% url 'account_signup' %}
+
+### Modifying Allauth templates
+
+Determine what version of Python the project is using:
+`ls ../.pip-modules/lib`
+Probably Python 3.8
+This indicates the directory where all of the modules and libraries that have been installed are located
+This is above the workspace in the directory structure
+
+Then copy the allauth templates into the templates folder, so that we can modify them:
+`cp -r ../.pip-modules/lib/python3.8/site-packages/allauth/templates/* ./templates`
+cp -r is the command to copy recursively, so that any directories are included
+Then we specify the file path to the templates
+This is why we needed to determine the python version number
+The ./templates is the paste location - the templates folder
+
+This should copy and paste the account, openid, socialaccount and tests folders into templates. The account folder is the one we are interested in, since that is where the signin, login and logout templates are located, along with many other HTML files that deal with accounts
+
+Note that Allauth supplies a base.html file itself, and all of the other HTML files have templating statements that extend this base. The intention is, I suppose, to use those templates from project start. So, delete account/ from these extends statements
+
+One thing to note is that these files have a tab indentation width of 2. By default, this will override global gitpod settings, so I have unchecked this option to make a tab indentation of 4 the standard
+
+
+## Commenting
+
+The model for comments already exists, and they can be approved/disapproved in the admin panel
+
+Formatting forms can be tricky, so Django Crispy Forms will be used to help
+
+Install Crispy forms:
+`pip3 install django-crispy-forms`
+
+Update requirements.txt:
+`pip3 freeze --local > requirements.txt`
+
+Add crispy_forms to settings.py INSTALLED_APPS
+
+Instruct Crispy to use bootstrap classes by adding CRISPY_TEMPLATE_PACK = 'bootstrap4'
+This project uses Bootstrap5, but Crispy does not yet have a compatibility pack for Bootstrap5
+However, forms formatting should not require many of the weird features of Bootstrap, so there should be no issue
+
+Create a forms.py file in the blog directory
+Import comments model from models.py and the forms base from django
+
+Now create the view for the comment
+
+Import the CommentForm class into views.py, and add "comment_form": CommentForm() to the return render 
+
+The add the form elements to post_detail, being sure to include {{ comment_form | crispy }}
+
+This actually renders the form. Only the body CharField is rendered, because that is what we have specified in the CommentForm class in forms.py, which is then imported into views.py for rendering in the return render statement
+
+This renders the form, but it won't actually work
+
+To make it work, there needs to be a POST method in the PostDetail class in views.py
+
+The code in views.py and post_detail.html means that comments are not automatically displayed, and must be approved in the django admin panel. Login to that, go to comments and then approve the comment. When the site is viewed again, the comment will display
+
+## Likes
+
+To enable likes, a new view is needed - create the code, create the template and wire up the URL
+
+
+## Messages
+
+Django has the capacity to issue messages to users when actions are performed
+
+Add:
+`from django.contrib.messages import constants as messages`
+to settings.py
+
+Add a MESSAGE_TAGS variable as a dictionary. This assigns various message types to bootstrap classes, so that the colour of the message will change depending on the type of message
+
+A message display element can be added to base.html. This goes above the main element that holds injected block content
+
+
+
+
+
 
 
 

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 if os.path.isfile('env.py'):
     import env
 # this specifies that env.py and its DATABASE_URL and SECRET_KEY are to be used only if we are working locally, since env.py will not be present in production
@@ -42,12 +43,37 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
     'django_summernote',
+    'crispy_forms',
     'blog',
 ]
+
+SITE_ID = 1
+# django can serve multiple sites using one database, but here we need only serve one site using the database
+# this still needs to be explictly stated using the SITE_ID variable
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+# These variables dictate that when a user logs in or logs out, they are taken back to the home page
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# dictates that Crispy use bootstrap classes
+# there is currently no pack for bootstrap5
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

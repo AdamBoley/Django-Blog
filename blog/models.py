@@ -21,13 +21,8 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name='blog_likes', blank=True)
 
 
-# Post is a table in the database
-# in author, the on_delete=models.CASCADE means that if the user who created to post is deleted, then all posts made by that user will be deleted as well
-# updated_on has auto_now=True, which means that it will default to the current time, unless overridden
-
-
-class Meta:
-    ordering = ['-created_on']
+    class Meta:
+        ordering = ['-created_on']
 
     def __str__(self):
         return self.title
@@ -36,13 +31,16 @@ class Meta:
     def number_of_likes(self):
         return self.likes.count()
 
-
+# Post is a table in the database
+# in author, the on_delete=models.CASCADE means that if the user who created to post is deleted, then all posts made by that user will be deleted as well
+# updated_on has auto_now=True, which means that it will default to the current time, unless overridden
 # The Meta class deals with ordering and indexing
 # here, -created_on will order posts in descending order
 # this means that posts will be displayed with the most recent first
 # def str is a magic method that returns a string representation of an object
 # Django suggests that this be included because the default is unhelpful
 # def number_of_likes will return the total number of likes on a post
+# the __str__ and number_of_likes methods are children of the Post class, not the Meta class. This caused problems with not displaying the number of likes properly
 
 
 class Comment(models.Model):
