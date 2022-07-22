@@ -40,6 +40,7 @@ class PostDetail(View):
                 "post": post,
                 "comments": comments,
                 "commented": False,
+                "comment_posted": False,
                 "liked": liked,
                 "comment_form": CommentForm()
             }
@@ -80,6 +81,7 @@ class PostDetail(View):
                 "post": post,
                 "comments": comments,
                 "commented": True,
+                "comment_posted": True,
                 "liked": liked,
                 "comment_form": CommentForm()
             }

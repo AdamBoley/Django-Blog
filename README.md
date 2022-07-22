@@ -243,11 +243,21 @@ Add a MESSAGE_TAGS variable as a dictionary. This assigns various message types 
 A message display element can be added to base.html. This goes above the main element that holds injected block content
 
 
+### Challenge
+
+Add code to views.py to flash a message when a user leave a comment
+"comment_posted": True 
+has been added to return render statements, to be used much like "commented": True is used to display the submission / approval message 
 
 
+## Final deployment
 
+The DEBUG variable must be set to False in settings.py
 
-
+Add:
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+just below DEBUG
+This will allow the use of summernote in the admin panel of the deployed version
 
 
 
