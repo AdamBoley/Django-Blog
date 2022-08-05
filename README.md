@@ -259,6 +259,8 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 just below DEBUG
 This will allow the use of summernote in the admin panel of the deployed version
 
+On Heroku, remove the DISABLE_COLLECTSTATIC config var, or set it to 0
+
 
 
 
